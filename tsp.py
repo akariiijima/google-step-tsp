@@ -15,5 +15,5 @@ def print_tour(tour):
     print(format_tour(tour))
 
 
-a = read_input("input_0.csv")
-print(a)
+input_0 = read_input("input_0.csv")
+print(input_0)
