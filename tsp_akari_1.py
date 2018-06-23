@@ -29,26 +29,26 @@ def solve(cities):
         current_city = next_city
     return tour
 
-def score(tour,input_):
+def score(tour,input_): #順路距離計算
     score = 0
     for i in range(len(tour)-1):
         score = score + math.sqrt((input_[tour[i]][0] - input_[tour[i+1]][0])*(input_[tour[i]][0] - input_[tour[i+1]][0]) + (input_[tour[i]][1] - input_[tour[i+1]][1])*(input_[tour[i]][1] - input_[tour[i+1]][1]))
     score = score + math.sqrt((input_[tour[0]][0] - input_[tour[len(tour)-1]][0])*(input_[tour[0]][0] - input_[tour[len(tour)-1]][0]) + (input_[tour[0]][1] - input_[tour[len(tour)-1]][1])*(input_[tour[0]][1] - input_[tour[len(tour)-1]][1]))
     return score
 
-def simulated_annealing(tour,greedy_score,len_tour,input_):
+def simulated_annealing(tour,greedy_score,len_tour,input_): #焼きなまし法
     index = 0
     optimisation_tour = tour
     minimum_score = greedy_score
-    while(index < 100):
-        swap_1 = int(random.uniform(0, len_tour))
-        swap_2 = int(random.uniform(0, len_tour))
-        tour[swap_1],tour[swap_2] = tour[swap_2],tour[swap_1]
-        if score(tour,input_) < minimum_score:
-            minimum_score = score(tour,input_)
-            optimisation_tour = tour
+    while(index < 100): #100回繰り返し
+        swap_1 = int(random.uniform(0, len_tour)) #乱数1を発生させる
+        swap_2 = int(random.uniform(0, len_tour)) #乱数2を発生させる
+        tour[swap_1],tour[swap_2] = tour[swap_2],tour[swap_1] #ランダムでtourの中身を交換
+        if score(tour,input_) < minimum_score: #もし交換したindexの順路が最短だと
+            minimum_score = score(tour,input_) #スコアを更新
+            optimisation_tour = tour #tourを更新
         else:
-            tour[swap_1],tour[swap_2] = tour[swap_1],tour[swap_2]
+            tour[swap_1],tour[swap_2] = tour[swap_1],tour[swap_2] #元のtourのならびに戻す
         index = index + 1
     
     return optimisation_tour, minimum_score
