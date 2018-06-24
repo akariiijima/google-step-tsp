@@ -40,17 +40,34 @@ def simulated_annealing(tour,greedy_score,len_tour,input_): #焼きなまし法
     index = 0
     optimisation_tour = tour
     minimum_score = greedy_score
-    while(index < 100): #100回繰り返し
-        swap_1 = int(random.uniform(0, len_tour)) #乱数1を発生させる
-        swap_2 = int(random.uniform(0, len_tour)) #乱数2を発生させる
-        tour[swap_1],tour[swap_2] = tour[swap_2],tour[swap_1] #ランダムでtourの中身を交換
-        if score(tour,input_) < minimum_score: #もし交換したindexの順路が最短だと
-            minimum_score = score(tour,input_) #スコアを更新
-            optimisation_tour = tour #tourを更新
+    swap_pair = [[]] #乱数の一致を防ぐ
+    while(index < 10000): #100回繰り返し
+        pair_match = 0 #乱数が一致した場合の真偽
+        while(True):
+            swap_1 = int(random.uniform(0, len_tour)) #乱数1を発生させる
+            swap_2 = int(random.uniform(0, len_tour)) #乱数2を発生させる
+            if swap_1 != swap_2:
+                break
+            
+        for i in range(len(swap_pair)-1):
+            if swap_pair[i] == [swap_1,swap_2] or swap_pair[i] == [swap_2,swap_1]:
+                pair_match = 1
+                break
+        if pair_match == 0: #乱数ペアが1度も出現しなかったら
+            swap_pair.append([swap_1,swap_2])      
+        
+            tour[swap_1],tour[swap_2] = tour[swap_2],tour[swap_1] #tourの中身を交換
+            if score(tour,input_) < minimum_score: #もし交換したindexの順路が最短だと
+                minimum_score = score(tour,input_) #スコアを更新
+                optimisation_tour = tour #tourを更新
+            else:
+                tour[swap_1],tour[swap_2] = tour[swap_1],tour[swap_2] #元のtourのならびに戻す
+            index = index + 1
         else:
-            tour[swap_1],tour[swap_2] = tour[swap_1],tour[swap_2] #元のtourのならびに戻す
-        index = index + 1
-    
+            index = index + 1
+            continue
+
+    print(swap_pair)
     return optimisation_tour, minimum_score
     
         
