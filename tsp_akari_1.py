@@ -40,7 +40,7 @@ def simulated_annealing(tour,greedy_score,len_tour,input_): #焼きなまし法
     index = 0
     optimisation_tour = tour
     minimum_score = greedy_score
-    swap_pair = [[]] #乱数の一致を防ぐ
+    swap_pair = set() #乱数の一致を防ぐ
     while(index < 10000): #100回繰り返し
         pair_match = 0 #乱数が一致した場合の真偽
         while(True):
@@ -48,13 +48,9 @@ def simulated_annealing(tour,greedy_score,len_tour,input_): #焼きなまし法
             swap_2 = int(random.uniform(0, len_tour)) #乱数2を発生させる
             if swap_1 != swap_2:
                 break
-            
-        for i in range(len(swap_pair)-1):
-            if swap_pair[i] == [swap_1,swap_2] or swap_pair[i] == [swap_2,swap_1]:
-                pair_match = 1
-                break
-        if pair_match == 0: #乱数ペアが1度も出現しなかったら
-            swap_pair.append([swap_1,swap_2])      
+        swap_1, swap_2 = min(swap_1,swap_2), max(swap_1,swap_2) #常にswap_1<swap_2となるようにしておく
+        if (swap_1,swap_2) not in swap_pair: #乱数ペアが1度も出現しなかったら
+            swap_pair.add((swap_1,swap_2))      
         
             tour[swap_1],tour[swap_2] = tour[swap_2],tour[swap_1] #tourの中身を交換
             if score(tour,input_) < minimum_score: #もし交換したindexの順路が最短だと
