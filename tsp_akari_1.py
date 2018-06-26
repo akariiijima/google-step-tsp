@@ -42,7 +42,6 @@ def simulated_annealing(tour,greedy_score,len_tour,input_): #焼きなまし法
     minimum_score = greedy_score
     swap_pair = set() #乱数の一致を防ぐ
     while(index < 100000): #100000回繰り返し
-        pair_match = 0 #乱数が一致した場合の真偽
         while(True):
             swap_1 = int(random.uniform(0, len_tour)) #乱数1を発生させる
             swap_2 = int(random.uniform(0, len_tour)) #乱数2を発生させる
