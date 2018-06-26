@@ -64,14 +64,6 @@ def dfs(N,dist):
     return min_length, min_path
 
 
-if __name__ == '__main__':
-    assert len(sys.argv) > 1
-    cities=read_input(sys.argv[1])
-    dist, N = distance_dic(cities)
-    min_length, min_path= dfs(N,dist)
-    print_path(min_path)    #tourはインデックスの順が入ったリスト
-
-
 #出力
 def format_path(path):
     return 'index\n' + '\n'.join(map(str, path))
@@ -80,6 +72,16 @@ def format_path(path):
 
 def print_path(path):
     print(format_path(path))
+
+
+if __name__ == '__main__':
+    assert len(sys.argv) > 1
+    cities=read_input(sys.argv[1])
+    dist, N = distance_dic(cities)
+    min_length, min_path= dfs(N,dist)
+    print_path(min_path)    #tourはインデックスの順が入ったリスト
+
+
 
 
 input_0 = read_input("input_0.csv")
