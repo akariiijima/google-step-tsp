@@ -73,6 +73,13 @@ def format_path(path):
 def print_path(path):
     print(format_path(path))
 
+def score(tour,input_): #総順路距離計算
+    score = 0
+    for i in range(len(tour)-1):
+        score = score + distance(input_[tour[i]], input_[tour[i+1]])
+    score = score + distance(input_[tour[0]], input_[tour[len(tour)-1]])
+    return score
+
 
 if __name__ == '__main__':
     assert len(sys.argv) > 1
@@ -80,9 +87,9 @@ if __name__ == '__main__':
     dist, N = distance_dic(cities)
     min_length, min_path= dfs(N,dist)
     print_path(min_path)    #tourはインデックスの順が入ったリスト
+    print("min_path : "+str(score(min_path,cities)))
 
 
 
-
-input_0 = read_input("input_0.csv")
-print(input_0)
+#input_0 = read_input("input_0.csv")
+#print(input_0)
